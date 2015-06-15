@@ -5,6 +5,9 @@ import click
 from ci import probe
 
 
+
+
+
 @click.command("probe")
 @click.option('--host', required=True, help='Host name which you want to ping.')
 @click.option('--port', required=True, help='Port number which you want to ping.')
@@ -14,5 +17,13 @@ def probe_cmd(host, port, retries, interval):
     probe.try_connect(host, port, retries, interval)
 
 
+@click.group()
+def cli(): pass
+
+cli.add_command(probe_cmd)
+
+def main(): cli()
+
+
 if __name__ == '__main__':
-    probe_cmd()
+    main()
