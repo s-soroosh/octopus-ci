@@ -42,12 +42,23 @@ def delete_stack(app_name, prefix, version):
     print("Stack removed successfully.")
 
 
+@click.group(name="check")
+def check_grp(): pass
+
+@click.group(name="aws")
+def aws_grp(): pass
+
+
+
+check_grp.add_command(probe_cmd)
+aws_grp.add_command(delete_stack)
+
 @click.group()
-def grp(): pass
+def grp():pass
 
+grp.add_command(check_grp)
+grp.add_command(aws_grp)
 
-grp.add_command(probe_cmd)
-grp.add_command(delete_stack)
 
 
 def main(): grp()
