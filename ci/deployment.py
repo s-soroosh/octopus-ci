@@ -10,7 +10,7 @@ def check_deleted(stack, region):
     non_deleted_stacks = list(
         filter(lambda s: s.stack_name == stack.stack.stack_name and s.stack_status != "DELETE_COMPLETE", stacks))
     if len(non_deleted_stacks) != 0:
-        print("There are {0} non deleted stack".format(len(non_deleted_stacks)))
+        print("There are {0} non deleted stack".format(len(non_deleted_stacks)), flush=True)
         return False
 
     return True
