@@ -1,28 +1,17 @@
 __author__ = 'soroosh'
 
 import boto
-import calendar
 
 
-def check_deleted(stack,region):
-    rows = []
+def check_deleted(stack, region):
     cf = boto.cloudformation.connect_to_region(region)
-    events = cf.describe_stack_events(stack.stack_name)
 
-    for event in events:
-        d = event.__dict__
-        d['stack_name'] = stack.name
-        d['version'] = stack.version
-        d['resource_type'] = d['resource_type']
-        d['event_time'] = calendar.timegm(event.timestamp.timetuple())
-        rows.append(d)
+    stacks = cf.list_stacks()
+    non_deleted_stacks = list(
+        filter(lambda s: s.stack_name == stack.stack.stack_name and s.stack_status != "DELETE_COMPLETE", stacks))
+    if len(non_deleted_stacks) != 0:
+        print("There are {0} non deleted stack".format(len(non_deleted_stacks)))
+        return False
 
-
-    rows.sort(key=lambda x: x['event_time'])
-    if rows[-1]["resource_status"] == "DELETE_COMPLETE":
-        return True
-
-    print(rows[-1]["resource_status"])
-    return False
-
+    return True
 

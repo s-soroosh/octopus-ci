@@ -36,7 +36,7 @@ def delete_stack(app_name, prefix, version):
     if len(stacks) == 0:
         return
 
-    delete([], region, None, None)
+    delete(stack_ref, region, None, None)
     while not check_deleted(stacks[0], region):
         sleep(5)
     print("Stack removed successfully.")
