@@ -1,7 +1,8 @@
 __author__ = 'soroosh'
 
 import click
-import probe
+
+from ci import probe
 
 
 @click.command("probe")
